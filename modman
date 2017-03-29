@@ -1,0 +1,5 @@
+src/app/code/community/Siteimprove/Mage/                         app/code/community/Siteimprove/Mage/
+src/app/etc/modules/Siteimprove_Mage.xml                         app/etc/modules/Siteimprove_Mage.xml
+src/app/locale/en_US/Siteimprove_Mage.csv                        app/locale/en_US/Siteimprove_Mage.csv
+src/app/design/adminhtml/default/default/template/siteimprove/   app/design/adminhtml/default/default/template/siteimprove/
+src/app/design/adminhtml/default/default/layout/siteimprove.xml  app/design/adminhtml/default/default/layout/siteimprove.xml

@@ -1,0 +1,14 @@
+<?php
+/**
+ * @var Siteimprove_Mage_Block_Adminhtml_Notification_Token $this
+ */
+?>
+<div class="notification-global">
+    <strong><?php
+        echo $this->__('Siteimprove needs configuration:')
+    ?></strong> <?php
+    echo $this->__(
+        'Siteimprove are set to be enabled but no token is configured. Click her to go <a href="%s">Siteimprove settings</a> and fetch a token',
+        $this->escapeHtml($this->getConfigUrl())
+    ); ?>
+</div>

@@ -1,0 +1,104 @@
+<_>
+   <form_key>n6QCnvMHzlTebXnD</form_key>
+   <_create/>
+   <name>Siteimprove_Mage</name>
+   <channel>community</channel>
+   <version_ids>
+      <version_ids>2</version_ids>
+   </version_ids>
+   <summary>Bridges the gap between Magento and the Siteimprove Intelligence Platform</summary>
+   <description>The Siteimprove plugin bridges the gap between Magento and the Siteimprove Intelligence Platform. Thanks to the seamless integration, you are now able to put your Siteimprove results to use where they are most valuable – during your content creation and editing process. With analytics and content insights always at hand, contributors can test, fix, and optimize their work continuously . Once the detected issues have been assessed, you can directly re-recheck the relevant page and see if further actions are needed. Delivering a superior digital experience has never been more efficient and convenient – Get started today!
+
+About Siteimprove
+Siteimprove provides organizations of all shapes and sizes with a solution that makes website management, maintenance, and optimization both easier and more affordable. Not a customer yet? Have a look: www.siteimprove.com</description>
+   <license>proprietary</license>
+   <license_uri/>
+   <version>1.0.0</version>
+   <stability>stable</stability>
+   <notes>Initial release</notes>
+   <authors>
+      <name>
+         <name>WEXO A/S</name>
+      </name>
+      <user>
+         <user>wexo_dk</user>
+      </user>
+      <email>
+         <email>magento@wexo.dk</email>
+      </email>
+   </authors>
+   <depends_php_min>5.4.0</depends_php_min>
+   <depends_php_max>7.2.0</depends_php_max>
+   <depends>
+      <package>
+         <name>
+            <name/>
+         </name>
+         <channel>
+            <channel/>
+         </channel>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+         <files>
+            <files>    </files>
+         </files>
+      </package>
+      <extension>
+         <name>
+            <name>Core</name>
+         </name>
+         <min>
+            <min/>
+         </min>
+         <max>
+            <max/>
+         </max>
+      </extension>
+   </depends>
+   <contents>
+      <target>
+         <target>magelocal</target>
+         <target>magecommunity</target>
+         <target>mageetc</target>
+         <target>magelocale</target>
+         <target>magedesign</target>
+         <target>magedesign</target>
+      </target>
+      <path>
+         <path/>
+         <path>Siteimprove/Mage</path>
+         <path>modules/Siteimprove_Mage.xml</path>
+         <path>en_US/Siteimprove_Mage.csv</path>
+         <path>adminhtml/default/default/template/siteimprove</path>
+         <path>adminhtml/default/default/layout/siteimprove.xml</path>
+      </path>
+      <type>
+         <type>file</type>
+         <type>dir</type>
+         <type>file</type>
+         <type>file</type>
+         <type>dir</type>
+         <type>file</type>
+      </type>
+      <include>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+         <include/>
+      </include>
+      <ignore>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+         <ignore/>
+      </ignore>
+   </contents>
+</_>

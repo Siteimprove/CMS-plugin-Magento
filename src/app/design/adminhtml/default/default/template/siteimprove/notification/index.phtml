@@ -1,0 +1,14 @@
+<?php
+/**
+ * @var Siteimprove_Mage_Block_Adminhtml_Notification_Index $this
+ */
+?>
+<div class="notification-global">
+    <strong><?php
+        echo $this->__('Index mode incompatibility:')
+    ?></strong> <?php
+    echo $this->__(
+        '"Catalog URL Rewrites" need to be configured to "Update on Save" for Siteimprove to work optimally. Click here to go to <a href="%s">Index Management</a> and change index mode',
+        $this->escapeHtml($this->getConfigUrl())
+    ); ?>
+</div>

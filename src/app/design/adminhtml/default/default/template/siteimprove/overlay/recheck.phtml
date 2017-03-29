@@ -1,0 +1,36 @@
+<?php
+/** @var Siteimprove_Mage_Block_Adminhtml_Overlay_Recheck $this */
+?>
+<script type="text/javascript">
+    var _si = window._si || [];
+    function mageSiRecheck(urls) {
+        "use strict";
+        urls.each(function (url) {
+            _si.push(['recheck', url, '<?php echo $this->jsQuoteEscape($this->getToken()) ?>'])
+        });
+    }
+
+    function mageSiRecheckFetch(clearSession) {
+        "use strict";
+        clearSession = typeof clearSession === 'undefined' || clearSession ? 'true' : 'false';
+        new Ajax.Request('<?php echo $this->jsQuoteEscape($this->getFetchRecheckUrlsEndpoint()) ?>', {
+            method: 'get',
+            parameters: { clear: clearSession },
+            onSuccess: function(response) {
+                var urls = response.responseJSON || [];
+                mageSiRecheck(urls);
+            }
+        });
+    }
+
+<?php if ($this->getAjax()): ?>
+    if (document.readyState !== 'complete') {
+        document.observe('dom:loaded', function() {
+            mageSiRecheckFetch();
+        });
+    }
+<?php else: ?>
+    mageSiRecheck(<?php echo $this->getJsonCheckUrls() ?>);
+<?php endif; ?>
+
+</script>

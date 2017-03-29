@@ -1,0 +1,16 @@
+<?php
+/**
+ * @var Siteimprove_Mage_Block_Adminhtml_Overlay_Domain $this
+ * @var string|null                                     $url
+ */
+$domain = $this->getDomain();
+$jsToken = $this->jsQuoteEscape($this->getToken());
+?>
+<script type="text/javascript">
+var _si = window._si || [];
+<?php if ($domain !== null): ?>
+_si.push(['domain', '<?php echo $this->jsQuoteEscape($domain); ?>', '<?php echo $jsToken ?>']);
+<?php else: ?>
+_si.push(['clear']);
+<?php endif; ?>
+</script>

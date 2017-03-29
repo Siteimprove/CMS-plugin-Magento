@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Siteimprove_Mage>
+            <active>true</active>
+            <codePool>community</codePool>
+        </Siteimprove_Mage>
+    </modules>
+</config>

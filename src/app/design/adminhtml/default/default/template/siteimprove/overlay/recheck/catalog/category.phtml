@@ -1,0 +1,16 @@
+<?php
+/** @var Siteimprove_Mage_Block_Adminhtml_Overlay_Recheck_Catalog_Category $this */
+?>
+<script type="text/javascript">
+    if (document.readyState !== 'complete') {
+        Ajax.Responders.register({
+            onComplete: function(request) {
+                if (request && request.method === 'post') {
+                    if (request.url && request.url.indexOf('/catalog_category/') >= 0) {
+                        mageSiRecheckFetch();
+                    }
+                }
+            }
+        });
+    }
+</script>

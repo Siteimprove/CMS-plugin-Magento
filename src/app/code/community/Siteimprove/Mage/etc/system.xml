@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<config>
+    <sections>
+        <siteimprove translate="label" module="siteimprove">
+            <label>Siteimprove</label>
+            <tab>service</tab>
+            <sort_order>120</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>General</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>10</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <expanded>1</expanded>
+                    <fields>
+                        <enabled translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>50</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </enabled>
+                        <token translate="label button_label_fetch token_set_comment">
+                            <label>Token</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <button_label_fetch>Fetch token</button_label_fetch>
+                            <token_set_comment>Token already set</token_set_comment>
+                            <backend_model>siteimprove/config_backend_token</backend_model>
+                            <frontend_model>siteimprove/adminhtml_system_config_token_helper</frontend_model>
+                            <validate>validate-alphanum</validate>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </token>
+                        <catalog_notice_url_rewrite_config translate="label">
+                            <label>Notify if "Catalog URL Rewrites" is not set to "Updated on Save"</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>150</sort_order>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <depends>
+                                <enabled>1</enabled>
+                            </depends>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <config_path>siteimprove/catalog/notify_about_url_rewrite_config</config_path>
+                        </catalog_notice_url_rewrite_config>
+                    </fields>
+                </general>
+            </groups>
+        </siteimprove>
+    </sections>
+</config>

@@ -1,0 +1,115 @@
+<?php /** @var Siteimprove_Mage_Block_Adminhtml_System_Config_Token_Helper $this */ ?>
+<script type="text/javascript">
+    //<![CDATA[
+
+    function tokenConfigOnChange() {
+        setTokenComment();
+        var elemBtnFetch = $('<?php echo $this->getHtmlId() ?>_btn_fetch');
+        elemBtnFetch.removeClassName('success').removeClassName('fail');
+        elemBtnFetch.firstDescendant().update('<?php echo $this->jsQuoteEscape(
+            $this->escapeHtml($this->getButtonLabelFetch())
+        ) ?>');
+    }
+
+    /**
+     * @param {Element|string|string[]|null} [comments=null] - Text to insert as comment (will be escaped)
+     */
+    function setTokenComment(comments) {
+        "use strict";
+
+        var elemTarget = $('<?php echo $this->getHtmlId() ?>');
+        var noteElem = elemTarget.next('p.note');
+        if (!noteElem) {
+            noteElem = new Element('p', {'class': 'note'});
+            elemTarget.insert({after: noteElem});
+        }
+
+        if (typeof comments === 'object') {
+            // If "comments" is a array
+            var i, len, comment, toInsert = [];
+            for (i = 0, len = comments.length; i < len; ++i) {
+                comment = comments[i];
+                if (typeof comment === 'string') {
+                    comment = comment.escapeHTML();
+                }
+                toInsert.push((new Element('span')).update(comment));
+                toInsert.push(new Element('br'));
+            }
+            // Remove last line break
+            toInsert.pop();
+            noteElem.update('');
+            var insertElem;
+            while (insertElem = toInsert.pop()) {
+                noteElem.insert(insertElem);
+            }
+        } else if (typeof comments === 'string') {
+            noteElem.update(comments.escapeHTML());
+        } else if (comments) {
+            noteElem.update(comments);
+        } else {
+            noteElem.remove();
+        }
+    }
+
+    function fetchCurrentToken() {
+        "use strict";
+        var input = $('<?php echo $this->getHtmlId() ?>');
+        if (input.value) {
+            setTokenComment('<?php echo $this->jsQuoteEscape($this->escapeHtml($this->getTokenSetComment())) ?>');
+            return;
+        }
+        var elem = $('<?php echo $this->getHtmlId() ?>_btn_fetch');
+        var elemBtnText = elem.firstDescendant();
+        new Ajax.Request('<?php echo $this->jsQuoteEscape($this->getAjaxFetchUrl()) ?>', {
+            onSuccess: function(response) {
+                var responseJSON = response.responseJSON || {};
+                var token = responseJSON.token;
+                var error = responseJSON.error;
+                var result = '<?php echo $this->jsQuoteEscape($this->escapeHtml($this->getButtonLabelFetch())) ?>';
+                try {
+                    if (token) {
+                        setTokenComment();
+                        input.value = token;
+                        result = '<?php
+                            echo $this->jsQuoteEscape($this->escapeHtml($this->__('Successfully fetched token'))) ?>';
+                        elem.removeClassName('fail').addClassName('success')
+                    } else if (error) {
+                        setTokenComment('<?php echo $this->jsQuoteEscape(
+                            $this->__('Error while trying to fetch token: "{ERROR}"')
+                        ) ?>'.replace('{ERROR}', error));
+                        elem.removeClassName('success').addClassName('fail')
+                    } else {
+                        unknownError();
+                    }
+                } catch (e) {
+                    unknownError();
+                }
+
+                function unknownError() {
+                    setTokenComment('<?php echo $this->jsQuoteEscape(
+                        $this->__('Unknown error occurred while trying to fetch token')
+                    ) ?>');
+                    elem.removeClassName('success').addClassName('fail')
+                }
+                elemBtnText.update(result);
+            }
+        });
+    }
+    //]]>
+</script>
+<?php
+$disabled = $this->isDisabled() ? ' disabled' : '';
+?>
+<tr>
+    <td class="label"></td>
+    <td class="value">
+        <button class="scalable<?php echo $disabled ?>"
+                onclick="fetchCurrentToken(); return null"
+                id="<?php echo $this->getHtmlId() ?>_btn_fetch"
+                type="button">
+            <span><?php echo $this->escapeHtml($this->getButtonLabelFetch()) ?></span>
+        </button>
+    </td>
+    <td class="scope-label"></td>
+    <td class=""></td>
+</tr>

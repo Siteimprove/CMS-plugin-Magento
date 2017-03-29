@@ -1,0 +1,22 @@
+{
+    "name": "siteimprove/magento",
+    "description": "Bridges the gap between Magento and the Siteimprove Intelligence Platform",
+    "type": "magento-module",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Siteimprove",
+            "email": "support@siteimprove.com"
+        },
+        {
+            "name": "Kim Sondrup (WEXO A/S)",
+            "email": "kim@wexo.dk"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "Map/copy module files with your magento installation"
+    }
+}

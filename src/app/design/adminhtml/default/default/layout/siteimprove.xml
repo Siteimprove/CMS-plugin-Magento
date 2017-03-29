@@ -1,0 +1,114 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">'
+    <default>
+        <reference name="before_body_end">
+            <block type="core/text" name="siteimprove.overlay.script">
+                <action method="setText">
+                    <text><![CDATA[<script src="https://cdn.siteimprove.net/cms/overlay.js"></script>]]></text>
+                </action>
+            </block>
+            <block type="siteimprove/adminhtml_overlay_domain"
+                   name="siteimprove.overlay.domain"
+                   after="siteimprove.overlay.script" />
+            <block type="siteimprove/adminhtml_overlay_recheck"
+                   name="siteimprove.overlay.recheck"
+                   after="siteimprove.overlay.script" />
+        </reference>
+        <reference name="notifications">
+            <block type="siteimprove/adminhtml_notification_token"
+                   name="siteimprove.notification.token"
+                   template="siteimprove/notification/token.phtml" />
+            <block type="siteimprove/adminhtml_notification_index"
+                   name="siteimprove.notification.index"
+                   template="siteimprove/notification/index.phtml" />
+        </reference>
+    </default>
+
+    <!-- Catalog product -->
+    <siteimprove_catalog_product_overlay>
+        <remove name="siteimprove.overlay.domain" />
+        <reference name="siteimprove.overlay.recheck">
+            <action method="setAjax">
+                <ajax>true</ajax>
+            </action>
+        </reference>
+        <reference name="before_body_end">
+            <block type="siteimprove/adminhtml_overlay_input_catalog_product"
+                   name="siteimprove.overlay.input.catalog_product"
+                   after="siteimprove.overlay.script" />
+        </reference>
+    </siteimprove_catalog_product_overlay>
+    <adminhtml_catalog_product_edit>
+        <update handle="siteimprove_catalog_product_overlay" />
+    </adminhtml_catalog_product_edit>
+    <adminhtml_catalog_product_new>
+        <update handle="siteimprove_catalog_product_overlay" />
+    </adminhtml_catalog_product_new>
+
+
+    <!-- Catalog category -->
+    <siteimprove_catalog_category_overlay>
+        <remove name="siteimprove.overlay.domain" />
+        <reference name="siteimprove.overlay.recheck">
+            <action method="setAjax">
+                <ajax>true</ajax>
+            </action>
+        </reference>
+        <reference name="before_body_end">
+            <block type="siteimprove/adminhtml_overlay_recheck_catalog_category"
+                   name="siteimprove.overlay.recheck.catalog.category"
+                   after="siteimprove.overlay.recheck" />
+        </reference>
+        <!-- Siteimprove Overlay is rendered by a observer -->
+    </siteimprove_catalog_category_overlay>
+    <adminhtml_catalog_category_edit>
+        <update handle="siteimprove_catalog_category_overlay" />
+    </adminhtml_catalog_category_edit>
+    <adminhtml_catalog_category_add>
+        <update handle="siteimprove_catalog_category_overlay" />
+    </adminhtml_catalog_category_add>
+
+
+    <!-- CMS page -->
+    <siteimprove_cms_page_overlay>
+        <remove name="siteimprove.overlay.domain" />
+        <reference name="siteimprove.overlay.recheck">
+            <action method="setAjax">
+                <ajax>true</ajax>
+            </action>
+        </reference>
+        <!-- Siteimprove Overlay is rendered by a observer -->
+    </siteimprove_cms_page_overlay>
+    <adminhtml_cms_page_edit>
+        <update handle="siteimprove_cms_page_overlay" />
+    </adminhtml_cms_page_edit>
+    <adminhtml_cms_page_new>
+        <update handle="siteimprove_cms_page_overlay" />
+    </adminhtml_cms_page_new>
+
+    <!-- Sales order -->
+    <siteimprove_sales_order_overlay>
+        <remove name="siteimprove.overlay.domain" />
+        <reference name="before_body_end">
+            <block type="siteimprove/adminhtml_overlay_domain_sales_order"
+                   name="siteimprove.overlay.domain.sales_order"
+                   after="siteimprove.overlay.script" />
+        </reference>
+    </siteimprove_sales_order_overlay>
+    <adminhtml_sales_order_view>
+        <update handle="siteimprove_sales_order_overlay" />
+    </adminhtml_sales_order_view>
+
+    <!-- System config -->
+    <siteimprove_system_config_overlay>
+        <remove name="siteimprove.overlay.domain" />
+        <reference name="before_body_end">
+            <block type="siteimprove/adminhtml_overlay_domain_system_config"
+                   name="siteimprove.overlay.domain.system_config"
+                   after="siteimprove.overlay.script" />
+        </reference>
+    </siteimprove_system_config_overlay>
+    <adminhtml_system_config_edit>
+        <update handle="siteimprove_system_config_overlay" />
+    </adminhtml_system_config_edit>
+</layout>
