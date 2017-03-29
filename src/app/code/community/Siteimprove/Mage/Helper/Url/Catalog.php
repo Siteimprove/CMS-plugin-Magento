@@ -26,17 +26,17 @@ class Siteimprove_Mage_Helper_Url_Catalog extends Siteimprove_Mage_Helper_Url_Ab
      * @param Mage_Catalog_Model_Product $product
      * @param array|null                 $storeIds
      * @param array|null                 $params
-     * @param bool                       $checkCanShowProductInFrontend
+     * @param bool                       $checkCanShowInFrontend
      * @param bool                       $checkRewriteProblems
      *
      * @return string[]
      */
     public function getAllProductUrls(
         Mage_Catalog_Model_Product $product,
-        array $storeIds                = null,
-        array $params                  = null,
-        $checkCanShowProductInFrontend = true,
-        $checkRewriteProblems          = true
+        array $storeIds         = null,
+        array $params           = null,
+        $checkCanShowInFrontend = true,
+        $checkRewriteProblems   = true
     ) {
         if ($params === null) {
             $params = array();
@@ -62,7 +62,7 @@ class Siteimprove_Mage_Helper_Url_Catalog extends Siteimprove_Mage_Helper_Url_Ab
             $storeProduct = clone $product;
             $storeProduct->setData('store_id', $storeId);
 
-            if ($checkCanShowProductInFrontend) {
+            if ($checkCanShowInFrontend) {
                 if (!$isSingleStoreMode) {
                     $storeProduct->load($product->getId());
                 }
@@ -133,6 +133,11 @@ class Siteimprove_Mage_Helper_Url_Catalog extends Siteimprove_Mage_Helper_Url_Ab
 
         if (!Mage::app()->isSingleStoreMode()) {
             $store = $product->getStore();
+
+            if ($store->isAdmin()) {
+                return false;
+            }
+
             if (!in_array($store->getWebsiteId(), $product->getWebsiteIds())) {
                 return false;
             }
@@ -149,6 +154,7 @@ class Siteimprove_Mage_Helper_Url_Catalog extends Siteimprove_Mage_Helper_Url_Ab
      * @param Mage_Catalog_Model_Category $category
      * @param array|null                  $storeIds
      * @param array|null                  $params
+     * @param bool                        $checkCanShowInFrontend
      * @param bool                        $checkRewriteProblems
      * @param bool                        $cloneCategory
      *
@@ -156,10 +162,11 @@ class Siteimprove_Mage_Helper_Url_Catalog extends Siteimprove_Mage_Helper_Url_Ab
      */
     public function getAllCategoryUrls(
         Mage_Catalog_Model_Category $category,
-        array $storeIds       = null,
-        array $params         = null,
-        $checkRewriteProblems = true,
-        $cloneCategory        = true
+        array $storeIds         = null,
+        array $params           = null,
+        $checkCanShowInFrontend = true,
+        $checkRewriteProblems   = true,
+        $cloneCategory          = true
     ) {
         if ($params === null) {
             $params = array();
@@ -170,7 +177,7 @@ class Siteimprove_Mage_Helper_Url_Catalog extends Siteimprove_Mage_Helper_Url_Ab
         }
 
         if ($storeIds === null) {
-            $storeIds = $this->getCategoryStoreIds($category);
+            $storeIds = $category->getStoreIds();
         } else {
             $storeIds = $this->filterAdminStoreId($storeIds);
         }
@@ -181,6 +188,12 @@ class Siteimprove_Mage_Helper_Url_Catalog extends Siteimprove_Mage_Helper_Url_Ab
 
         $storeUrls = array();
         foreach ($storeIds as $storeId) {
+            if ($checkCanShowInFrontend) {
+                if (!$this->_canShowCategoryInFrontend($category, $storeId)) {
+                    continue;
+                }
+            }
+
             if ($checkRewriteProblems) {
                 $store = Mage::app()->getStore($storeId);
                 if ($this->checkForRewritePathProblem($store)) {
@@ -225,32 +238,65 @@ class Siteimprove_Mage_Helper_Url_Catalog extends Siteimprove_Mage_Helper_Url_Ab
     }
 
     /**
-     * @param Mage_Catalog_Model_Product $product
-     * @param bool                       $checkStoreActive filter out urls where store view is not active
+     * @param Mage_Catalog_Model_Category $category
      *
-     * @return array
-     *
-     * @throws Mage_Core_Exception
+     * @return bool
      */
-    public function getCategoryStoreIds(Mage_Catalog_Model_Category $category, $checkStoreActive = true)
+    public function canShowCategoryInFrontend(Mage_Catalog_Model_Category $category)
     {
-        $categoryId = $category->getId();
-        $resource = $category->getResource();
+        return $this->_canShowCategoryInFrontend($category, $category->getStore()->getId());
+    }
 
-        $storeIds = $category->getStoreIds();
-        $storeIds = $this->filterAdminStoreId($storeIds);
-        // Find all stores where category is active
-        foreach ($storeIds as $storeId) {
-            $store = Mage::app()->getStore($storeId);
-            if ($checkStoreActive && !$store->getIsActive()) {
-                continue;
+    /**
+     * @param Mage_Catalog_Model_Category $category
+     * @param int|string                  $store
+     *
+     * @return bool
+     */
+    protected function _canShowCategoryInFrontend(Mage_Catalog_Model_Category $category, $storeId) {
+
+        if ($category->isObjectNew()) {
+            return false;
+        }
+
+        $notSingleStoreMode = !Mage::app()->isSingleStoreMode();
+
+        if ($notSingleStoreMode) {
+            $catStoreId = $category->getData('store_id');
+            if ($catStoreId && $catStoreId == $storeId) {
+                $isActive = $category->getData('is_active');
+            } else {
+                $resource = $category->getResource();
+                $isActive = $resource->getAttributeRawValue($category->getId(), 'is_active', $storeId);
             }
-            $isActive = (int)$resource->getAttributeRawValue($categoryId, 'is_active', $store->getId());
-            if ($isActive) {
-                $storeIds[] = $store->getId();
+        } else {
+            $isActive = $category->getData('is_active');
+        }
+
+        if (!$isActive) {
+            return false;
+        }
+
+        if ($notSingleStoreMode) {
+            $storeIds = $category->getStoreIds();
+            if (!in_array($storeId, $storeIds)) {
+                return false;
             }
         }
-        return $storeIds;
+
+        $store = Mage::app()->getStore($storeId);
+
+        if ($notSingleStoreMode) {
+            if ($store->isAdmin()) {
+                return false;
+            }
+        }
+
+        if (!$store->getIsActive()) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

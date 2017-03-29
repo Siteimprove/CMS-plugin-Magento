@@ -29,7 +29,7 @@ class Siteimprove_Mage_Block_Adminhtml_Overlay_Input_Catalog_Category
                     break;
                 }
             }
-        } elseif ($this->isEnabled($storeId)) {
+        } elseif ($helper->canShowCategoryInFrontend($category) && $this->isEnabled($storeId)) {
             $inputUrl = $helper->getCategoryUrl($category, $storeId);
         }
 
