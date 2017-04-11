@@ -23,4 +23,9 @@ class Siteimprove_Mage_Adminhtml_Siteimprove_RecheckController extends Mage_Admi
             ->setHeader('Content-Type', 'application/json; charset=utf-8')
             ->setBody(Mage::helper('core')->jsonEncode($response));
     }
+
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isLoggedIn();
+    }
 }
