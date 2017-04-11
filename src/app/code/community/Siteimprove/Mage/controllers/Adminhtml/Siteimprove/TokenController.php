@@ -1,7 +1,6 @@
 <?php
 
-class Siteimprove_Mage_Adminhtml_Siteimprove_System_Config_Token_HelperController
-    extends Mage_Adminhtml_Controller_Action
+class Siteimprove_Mage_Adminhtml_Siteimprove_TokenController extends Mage_Adminhtml_Controller_Action
 {
 
     public function fetchAction()

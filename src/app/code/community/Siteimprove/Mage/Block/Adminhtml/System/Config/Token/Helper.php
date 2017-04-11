@@ -43,7 +43,7 @@ class Siteimprove_Mage_Block_Adminhtml_System_Config_Token_Helper extends Mage_A
 
         $this->addData(array(
             'button_label_fetch' => $originalData->getData('button_label_fetch'),
-            'ajax_fetch_url' => $this->getUrl('*/siteimprove_system_config_token_helper/fetch')
+            'ajax_fetch_url' => $this->getUrl('*/siteimprove_token/fetch')
         ));
 
         $html = $this->_toHtml();
