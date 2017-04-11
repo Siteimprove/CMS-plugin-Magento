@@ -8,7 +8,8 @@ $url = $this->getInputUrl();
 <script type="text/javascript">
 var _si = window._si || [];
 <?php if ($url): ?>
-_si.push(['input', '<?php echo $this->jsQuoteEscape($url); ?>', '<?php echo $this->jsQuoteEscape($this->getToken()) ?>']);
+_si.push(['input', '<?php
+    echo $this->jsQuoteEscape($url); ?>', '<?php echo $this->jsQuoteEscape($this->getToken()) ?>']);
 <?php else: ?>
 _si.push(['clear']);
 <?php endif; ?>

@@ -68,7 +68,8 @@ class Siteimprove_Mage_Model_Observer_Catalog_Product extends Siteimprove_Mage_M
                 $storesWithAttrChange = $this->getEffectedScope($entityId, $attr, $allStoreIds, $websitesStoreIds);
                 $hasChanges = $this->mergeUnique($hasChanges, $storesWithAttrChange);
 
-                if (count(array_diff($allStoreIds, $hasChanges)) === 0) {
+                $storesNotChanged = array_diff($allStoreIds, $hasChanges);
+                if (!$storesNotChanged) {
                     // All store ids is confirmed to have changes so no need to test the rest
                     break;
                 }
@@ -80,7 +81,7 @@ class Siteimprove_Mage_Model_Observer_Catalog_Product extends Siteimprove_Mage_M
             $websiteIds = $product->getData('website_ids');
             $websiteIdsOrig = $product->getOrigData('website_ids');
             $newlyAddedWebsites = array_diff($websiteIds, $websiteIdsOrig);
-            if (count($newlyAddedWebsites)) {
+            if ($newlyAddedWebsites) {
                 $notifyAfterIndex = true;
             }
             $newlyAddedStores = array();

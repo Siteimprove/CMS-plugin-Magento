@@ -50,12 +50,12 @@ abstract class Siteimprove_Mage_Model_Observer_Catalog_Abstract extends Siteimpr
     }
 
     /**
-     * @param int                                      $entity_id
+     * @param int                                      $entityId
      * @param Mage_Eav_Model_Entity_Attribute_Abstract $attribute
      *
      * @return int[]
      */
-    public function storesNotUsingDefault($entity_id, Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
+    public function storesNotUsingDefault($entityId, Mage_Eav_Model_Entity_Attribute_Abstract $attribute)
     {
         $table   = $attribute->getBackend()->getTable();
         $adapter = $attribute->getResource()->getReadConnection();
@@ -66,10 +66,10 @@ abstract class Siteimprove_Mage_Model_Observer_Catalog_Abstract extends Siteimpr
             ->where('store_id != ?', Mage_Core_Model_App::ADMIN_STORE_ID)
             ->where('entity_type_id = ?', $attribute->getEntityTypeId())
             ->where('attribute_id = ?', $attribute->getId())
-            ->where("{$idField} = ?", $entity_id);
+            ->where("{$idField} = ?", $entityId);
 
-        return array_map(function($store_id) {
-            return (int)$store_id;
+        return array_map(function($storeId) {
+            return (int)$storeId;
         }, $adapter->fetchCol($select));
     }
 

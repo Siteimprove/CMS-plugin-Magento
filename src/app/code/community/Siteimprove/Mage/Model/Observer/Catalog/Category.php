@@ -62,7 +62,8 @@ class Siteimprove_Mage_Model_Observer_Catalog_Category extends Siteimprove_Mage_
                 $storesWithAttrChange = $this->getEffectedScope($entityId, $attr, $allStoreIds, $websitesStoreIds);
                 $hasChanges = $this->mergeUnique($hasChanges, $storesWithAttrChange);
 
-                if (count(array_diff($allStoreIds, $hasChanges)) === 0) {
+                $storesNotChanged = array_diff($allStoreIds, $hasChanges);
+                if (!$storesNotChanged) {
                     // All store ids is confirmed to have changes so no need to test the rest
                     break;
                 }
